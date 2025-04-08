@@ -85,6 +85,7 @@ macro_rules! define_jsonrpc_minreq_client {
                 let transport = jsonrpc::http::minreq_http::Builder::new()
                     .url(url)
                     .expect("jsonrpc v0.18, this function does not error")
+                    .timeout(std::time::Duration::from_secs(100))
                     .build();
                 let inner = jsonrpc::client::Client::with_transport(transport);
 
@@ -101,6 +102,7 @@ macro_rules! define_jsonrpc_minreq_client {
                 let transport = jsonrpc::http::minreq_http::Builder::new()
                     .url(url)
                     .expect("jsonrpc v0.18, this function does not error")
+                    .timeout(std::time::Duration::from_secs(100))
                     .basic_auth(user.unwrap(), pass)
                     .build();
                 let inner = jsonrpc::client::Client::with_transport(transport);

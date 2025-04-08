@@ -255,8 +255,8 @@ pub struct Conf<'a> {
 impl Default for Conf<'_> {
     fn default() -> Self {
         Conf {
-            args: vec!["-regtest", "-fallbackfee=0.0001"],
-            view_stdout: false,
+            args: vec!["-regtest", "-fallbackfee=0.0001", "-debug=http", "-debug=rpc"],
+            view_stdout: true,
             p2p: P2P::No,
             network: "regtest",
             tmpdir: None,
