@@ -15,6 +15,7 @@ use bitcoin::{
     amount, hex, key, psbt, secp256k1, sign_message, Amount, CompressedPublicKey, FeeRate, Network,
     PrivateKey, PublicKey,
 };
+use bitcoind::serde_json::json;
 use bitcoind::vtype::*; // All the version specific types.
 #[cfg(not(feature = "v20_and_below"))]
 use bitcoind::ImportDescriptorsRequest;
@@ -898,7 +899,12 @@ fn wallet__psbt_bump_fee__modelled() {
         .txid()
         .unwrap();
 
-    let json: PsbtBumpFee = node.client.psbt_bump_fee(&txid).expect("psbtbumpfee");
+    // Force PSBTv0: bitcoin/bitcoin master now defaults to v2 (BIP370).
+    // psbt_version is in the options object, not a positional arg.
+    let json: PsbtBumpFee = node
+        .client
+        .call("psbtbumpfee", &[json!(txid.to_string()), json!({"psbt_version": 0})])
+        .expect("psbtbumpfee");
     let model: Result<mtype::PsbtBumpFee, PsbtBumpFeeError> = json.into_model();
     model.unwrap();
 }
@@ -1106,9 +1112,18 @@ fn wallet__wallet_create_funded_psbt__modelled() {
 
     let addr = node.client.new_address().expect("newaddress");
     let outputs = BTreeMap::from([(addr, Amount::from_sat(100_000))]);
+    let outputs_json: Vec<BTreeMap<String, f64>> = vec![outputs
+        .into_iter()
+        .map(|(addr, amt)| (addr.to_string(), amt.to_btc()))
+        .collect()];
+    // Force PSBTv0: bitcoin/bitcoin master now defaults to v2 (BIP370).
+    // Args: inputs, outputs, locktime, options, bip32derivs, version, psbt_version.
     let json: WalletCreateFundedPsbt = node
         .client
-        .wallet_create_funded_psbt(vec![], vec![outputs])
+        .call(
+            "walletcreatefundedpsbt",
+            &[json!([]), json!(outputs_json), json!(null), json!(null), json!(null), json!(null), json!(0)],
+        )
         .expect("walletcreatefundedpsbt");
 
     let model: Result<mtype::WalletCreateFundedPsbt, WalletCreateFundedPsbtError> =
@@ -1125,9 +1140,18 @@ fn wallet__wallet_process_psbt__modelled() {
 
     let addr = node.client.new_address().expect("newaddress");
     let outputs = BTreeMap::from([(addr, Amount::from_sat(50_000))]);
+    let outputs_json: Vec<BTreeMap<String, f64>> = vec![outputs
+        .into_iter()
+        .map(|(addr, amt)| (addr.to_string(), amt.to_btc()))
+        .collect()];
+    // Force PSBTv0: bitcoin/bitcoin master now defaults to v2 (BIP370).
+    // Args: inputs, outputs, locktime, options, bip32derivs, version, psbt_version.
     let funded_psbt: WalletCreateFundedPsbt = node
         .client
-        .wallet_create_funded_psbt(vec![], vec![outputs])
+        .call(
+            "walletcreatefundedpsbt",
+            &[json!([]), json!(outputs_json), json!(null), json!(null), json!(null), json!(null), json!(0)],
+        )
         .expect("walletcreatefundedpsbt");
     let model: Result<mtype::WalletCreateFundedPsbt, WalletCreateFundedPsbtError> =
         funded_psbt.into_model();
