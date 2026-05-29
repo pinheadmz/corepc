@@ -372,7 +372,7 @@ impl GetTransaction {
             time: self.time,
             time_received: self.time_received,
             comment: None, // v20 to v24 only.
-            bip125_replaceable: self.bip125_replaceable.into_model(),
+            bip125_replaceable: Some(self.bip125_replaceable.into_model()),
             parent_descriptors: None, // v24 and later only.
             details,
             decoded: None,              // v19 and later only.
@@ -596,7 +596,7 @@ impl TransactionItem {
         let block_hash = self.block_hash.parse::<BlockHash>().map_err(E::BlockHash)?;
         let block_index = crate::to_u32(self.block_index, "block_index")?;
         let txid = self.txid.map(|s| s.parse::<Txid>().map_err(E::Txid)).transpose()?;
-        let bip125_replaceable = self.bip125_replaceable.into_model();
+        let bip125_replaceable = Some(self.bip125_replaceable.into_model());
 
         Ok(model::TransactionItem {
             involves_watch_only: None,
