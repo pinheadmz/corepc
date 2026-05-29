@@ -40,6 +40,10 @@ pub struct GetBalancesMine {
     ///
     /// Only present if `avoid_reuse` is set.
     pub used: Option<f64>,
+    /// Sum of coins that are spent by transactions not in the mempool.
+    ///
+    /// Added in Bitcoin Core v28 (bitcoin/bitcoin#35182).
+    pub nonmempool: Option<f64>,
 }
 
 /// Hash and height of the block this information was generated on. Part of `getbalances`.

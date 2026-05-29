@@ -370,8 +370,9 @@ pub struct GetTransaction {
     /// If a comment is associated with the transaction, only present if not empty. v20 to v24 only.
     pub comment: Option<String>,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee);
-    /// may be unknown for unconfirmed transactions not in the mempool
-    pub bip125_replaceable: Bip125Replaceable,
+    /// may be unknown for unconfirmed transactions not in the mempool.
+    /// This field was removed from Bitcoin Core RPCs after v28 (deprecated by #34911).
+    pub bip125_replaceable: Option<Bip125Replaceable>,
     /// Only if 'category' is 'received'. List of parent descriptors for the output script of this coin. v24 and later only.
     pub parent_descriptors: Option<Vec<String>>,
     /// Transaction details.
@@ -648,8 +649,9 @@ pub struct TransactionItem {
     /// If a comment is associated with the transaction.
     pub comment: Option<String>,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee);
-    /// may be unknown for unconfirmed transactions not in the mempool
-    pub bip125_replaceable: Bip125Replaceable,
+    /// may be unknown for unconfirmed transactions not in the mempool.
+    /// This field was removed from Bitcoin Core RPCs after v28 (deprecated by #34911).
+    pub bip125_replaceable: Option<Bip125Replaceable>,
     /// Only if 'category' is 'received'. List of parent descriptors for the scriptPubKey of this coin. v24 and later only.
     pub parent_descriptors: Option<Vec<String>>,
     /// If the transaction has been abandoned (inputs are respendable).
