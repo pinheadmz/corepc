@@ -98,7 +98,7 @@ impl GetTransaction {
             time: self.time,
             time_received: self.time_received,
             comment: None, // v20 to v24 only.
-            bip125_replaceable: self.bip125_replaceable.into_model(),
+            bip125_replaceable: Some(self.bip125_replaceable.into_model()),
             parent_descriptors: None, // v24 and later only.
             details,
             decoded,

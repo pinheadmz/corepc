@@ -9,27 +9,30 @@ on:   # yamllint disable-line rule:truthy
 name: Continuous integration
 
 jobs:
-  Integration:                  # 1 job for each bitcoind version we support.
-    name: Integration tests - stable toolchain
+  Integration:
+    name: Integration tests against pinheadmz/bitcoin:pr35182-ddefe4263b
     runs-on: ubuntu-latest
+    env:
+      BITCOIND_SKIP_DOWNLOAD: "1"
     strategy:
       fail-fast: false
-      matrix:
-        version:
-          [
-            "31_0",
-          ]
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
-      - uses: Swatinem/rust-cache@v2
-      - uses: rust-bitcoin/rust-bitcoin-maintainer-tools/.github/actions/setup-rbmt@6560b728ae6a81af9d92713b630ba26772fbd970 # v0.1.0
-      - name: "Cache downloaded bitcoind"
-        uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/.cache/corepc/bitcoind
-          key: bitcoind-${{ runner.os }}-${{ runner.arch }}-${{ matrix.version }}
+      - name: "Select toolchain"
+        uses: dtolnay/rust-toolchain@stable
+      - name: "Pull bitcoind from docker image"
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/bin
+          docker pull pinheadmz/bitcoin:pr35182-ddefe4263b
+          cid=$(docker create pinheadmz/bitcoin:pr35182-ddefe4263b)
+          docker cp $cid:/opt/bin/bitcoind   $GITHUB_WORKSPACE/bin/bitcoind
+          docker cp $cid:/opt/bin/bitcoin-cli $GITHUB_WORKSPACE/bin/bitcoin-cli
+          docker rm $cid
+          chmod +x $GITHUB_WORKSPACE/bin/*
+          sudo apt-get update -y
+          sudo apt-get install -y libevent-dev libboost-dev libzmq3-dev libsqlite3-dev
+          $GITHUB_WORKSPACE/bin/bitcoind -version
+          echo "BITCOIND_EXE=$GITHUB_WORKSPACE/bin/bitcoind" >> $GITHUB_ENV
       - name: "Run integration tests"
-        env:
-          BITCOIND_DOWNLOAD_DIR: ${{ github.workspace }}/.cache/corepc/bitcoind
-        run: cd integration_test && cargo test --features=${{ matrix.version }},download
+        run: cd integration_test && cargo test --features=31_0
