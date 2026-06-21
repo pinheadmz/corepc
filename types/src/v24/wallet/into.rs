@@ -69,7 +69,7 @@ impl GetTransaction {
             time: self.time,
             time_received: self.time_received,
             comment: self.comment,
-            bip125_replaceable: self.bip125_replaceable.into_model(),
+            bip125_replaceable: Some(self.bip125_replaceable.into_model()),
             parent_descriptors: self.parent_descriptors,
             details,
             decoded,
@@ -157,7 +157,7 @@ impl TransactionItem {
             .transpose()?;
         let replaces_txid =
             self.replaces_txid.map(|s| s.parse::<Txid>().map_err(E::ReplacesTxid)).transpose()?;
-        let bip125_replaceable = self.bip125_replaceable.into_model();
+        let bip125_replaceable = Some(self.bip125_replaceable.into_model());
 
         Ok(model::TransactionItem {
             involves_watch_only: self.involves_watch_only,

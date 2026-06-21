@@ -223,7 +223,7 @@ impl GetTransaction {
             time: self.time,
             time_received: self.time_received,
             comment: self.comment,
-            bip125_replaceable: self.bip125_replaceable.into_model(),
+            bip125_replaceable: Some(self.bip125_replaceable.into_model()),
             parent_descriptors: None, // v24 and later only.
             details,
             decoded,
@@ -303,7 +303,7 @@ impl TransactionItem {
             .into_iter()
             .map(|s| s.parse::<Txid>().map_err(E::WalletConflicts))
             .collect::<Result<Vec<_>, _>>()?;
-        let bip125_replaceable = self.bip125_replaceable.into_model();
+        let bip125_replaceable = Some(self.bip125_replaceable.into_model());
 
         Ok(model::TransactionItem {
             involves_watch_only: self.involves_watch_only,

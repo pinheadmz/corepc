@@ -12,6 +12,7 @@ use bitcoin::opcodes::all::*;
 use bitcoin::{
     absolute, consensus, hex, psbt, script, transaction, Amount, ScriptBuf, Transaction, TxOut,
 };
+use bitcoind::serde_json::json;
 use bitcoind::vtype::*;
 use bitcoind::{mtype, Input, Output};
 use integration_test::{test_keys, BitcoinD, BitcoinDExt as _, Wallet}; // All the version specific types.
@@ -66,7 +67,13 @@ fn raw_transactions__combine_psbt__modelled() {
         .assume_checked();
     outputs.push(Output::new(change_address, change_amount));
 
-    let json: CreatePsbt = node.client.create_psbt(&inputs, &outputs).expect("createpsbt");
+    // Force PSBTv0: bitcoin/bitcoin master now defaults to v2 (BIP370) which
+    // rust-bitcoin 0.32 cannot parse. Pass explicit psbt_version=0 until the
+    // crate is upgraded to support v2.
+    let json: CreatePsbt = node
+        .client
+        .call("createpsbt", &[json!(inputs), json!(outputs), json!(null), json!(null), json!(null), json!(0)])
+        .expect("createpsbt");
     let psbt: Result<mtype::CreatePsbt, psbt::PsbtParseError> = json.clone().into_model();
     let psbt = psbt.unwrap();
     let psbt = psbt.0;
@@ -109,7 +116,13 @@ fn raw_transactions__convert_to_psbt__modelled() {
 
     let tx = create_a_raw_transaction(&node);
 
-    let json: ConvertToPsbt = node.client.convert_to_psbt(&tx).expect("converttopsbt");
+    let json: ConvertToPsbt = {
+        // Force PSBTv0: bitcoin/bitcoin master now defaults to v2 (BIP370).
+        let hex = bitcoin::consensus::encode::serialize_hex(&tx);
+        node.client
+            .call("converttopsbt", &[json!(hex), json!(null), json!(null), json!(0)])
+            .expect("converttopsbt")
+    };
     let model: Result<mtype::ConvertToPsbt, psbt::PsbtParseError> = json.into_model();
     model.unwrap();
 }
@@ -694,7 +707,13 @@ fn create_a_psbt(node: &BitcoinD) -> bitcoin::Psbt {
         .assume_checked();
     outputs.push(Output::new(change_address, change_amount));
 
-    let json: CreatePsbt = node.client.create_psbt(&inputs, &outputs).expect("createpsbt");
+    // Force PSBTv0: bitcoin/bitcoin master now defaults to v2 (BIP370) which
+    // rust-bitcoin 0.32 cannot parse. Pass explicit psbt_version=0 until the
+    // crate is upgraded to support v2.
+    let json: CreatePsbt = node
+        .client
+        .call("createpsbt", &[json!(inputs), json!(outputs), json!(null), json!(null), json!(null), json!(0)])
+        .expect("createpsbt");
     let model: Result<mtype::CreatePsbt, psbt::PsbtParseError> = json.clone().into_model();
     let psbt = model.unwrap();
     psbt.0

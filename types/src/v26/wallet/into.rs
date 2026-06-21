@@ -103,7 +103,7 @@ impl GetTransaction {
             time: self.time,
             time_received: self.time_received,
             comment: self.comment,
-            bip125_replaceable: self.bip125_replaceable.into_model(),
+            bip125_replaceable: Some(self.bip125_replaceable.into_model()),
             parent_descriptors: self.parent_descriptors,
             details,
             decoded,

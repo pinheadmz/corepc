@@ -245,7 +245,7 @@ impl GetTransaction {
             time: self.time,
             time_received: self.time_received,
             comment: self.comment,
-            bip125_replaceable: self.bip125_replaceable.into_model(),
+            bip125_replaceable: self.bip125_replaceable.map(|v| v.into_model()),
             parent_descriptors: self.parent_descriptors,
             details,
             decoded,
@@ -312,7 +312,7 @@ impl TransactionItem {
         let mempool_conflicts = self
             .mempool_conflicts
             .map(|v| v.into_iter().filter_map(|s| s.parse::<Txid>().ok()).collect::<Vec<_>>());
-        let bip125_replaceable = self.bip125_replaceable.into_model();
+        let bip125_replaceable = self.bip125_replaceable.map(|v| v.into_model());
 
         Ok(model::TransactionItem {
             involves_watch_only: self.involves_watch_only,

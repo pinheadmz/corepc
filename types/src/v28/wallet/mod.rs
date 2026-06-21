@@ -258,8 +258,9 @@ pub struct GetTransaction {
     pub comment: Option<String>,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee);
     /// may be unknown for unconfirmed transactions not in the mempool.
+    /// Removed in Bitcoin Core after v28 (deprecated by #34911).
     #[serde(rename = "bip125-replaceable")]
-    pub bip125_replaceable: Bip125Replaceable,
+    pub bip125_replaceable: Option<Bip125Replaceable>,
     /// Only if 'category' is 'received'. List of parent descriptors for the output script of this
     /// coin.
     #[serde(rename = "parent_descs")]
@@ -359,9 +360,10 @@ pub struct TransactionItem {
     #[serde(rename = "timereceived")]
     pub time_received: u32,
     /// ("yes|no|unknown") Whether this transaction could be replaced due to BIP125 (replace-by-fee);
-    /// may be unknown for unconfirmed transactions not in the mempool
+    /// may be unknown for unconfirmed transactions not in the mempool.
+    /// Removed in Bitcoin Core after v28 (deprecated by #34911).
     #[serde(rename = "bip125-replaceable")]
-    pub bip125_replaceable: Bip125Replaceable,
+    pub bip125_replaceable: Option<Bip125Replaceable>,
     /// Only if 'category' is 'received'. List of parent descriptors for the scriptPubKey of this coin.
     #[serde(rename = "parent_descs")]
     pub parent_descriptors: Option<Vec<String>>,

@@ -233,7 +233,24 @@ fn build_inputs_outputs(node: &BitcoinD) -> (Vec<Input>, Vec<Output>) {
 #[cfg(not(feature = "v17"))]
 fn build_psbt(node: &BitcoinD) -> bitcoin::Psbt {
     let (inputs, outputs) = build_inputs_outputs(node);
-    let json: CreatePsbt = node.client.create_psbt(&inputs, &outputs).unwrap();
+    // Force PSBTv0: bitcoin/bitcoin master now defaults to v2 (BIP370) which
+    // rust-bitcoin 0.32 cannot parse. Pass explicit psbt_version=0 until the
+    // crate is upgraded to support v2.
+    // createpsbt arg order: inputs, outputs, locktime, replaceable, version, psbt_version
+    let json: CreatePsbt = node
+        .client
+        .call(
+            "createpsbt",
+            &[
+                bitcoind::serde_json::json!(inputs),
+                bitcoind::serde_json::json!(outputs),
+                bitcoind::serde_json::json!(null),
+                bitcoind::serde_json::json!(null),
+                bitcoind::serde_json::json!(null),
+                bitcoind::serde_json::json!(0),
+            ],
+        )
+        .unwrap();
     json.into_model().unwrap().0
 }
 
