@@ -124,7 +124,7 @@ pub struct MempoolEntry {
     pub spent_by: Vec<String>,
     /// Whether this transaction signals BIP125 replaceability or has an unconfirmed ancestor
     /// signaling BIP125 replaceability (DEPRECATED).
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: bool,
     /// Whether this transaction is currently unbroadcast (initial broadcast not yet acknowledged by
     /// any peers).
@@ -187,7 +187,7 @@ pub struct GetMempoolInfo {
     #[serde(rename = "unbroadcastcount")]
     pub unbroadcast_count: i64,
     /// True if the mempool accepts RBF without replaceability signaling inspection (DEPRECATED).
-    #[serde(rename = "fullrbf")]
+    #[serde(rename = "fullrbf", default)]
     pub full_rbf: bool,
     /// True if the mempool accepts transactions with bare multisig outputs.
     #[serde(rename = "permitbaremultisig")]
