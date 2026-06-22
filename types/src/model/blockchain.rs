@@ -767,7 +767,9 @@ pub struct MempoolEntry {
     pub depends: Vec<Txid>,
     /// Unconfirmed transactions spending outputs from this transaction (child transaction id).
     pub spent_by: Vec<Txid>,
-    /// Whether this transaction could be replaced due to BIP125 (replace-by-fee)
+    /// Whether this transaction could be replaced due to BIP125 (replace-by-fee).
+    /// Removed in Bitcoin Core v28.0 (cluster mempool).
+    #[serde(default)]
     pub bip125_replaceable: Option<bool>,
     /// Whether this transaction is currently unbroadcast (initial broadcast not yet acknowledged by
     /// any peers). v0.21 and later only.

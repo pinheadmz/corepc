@@ -51,7 +51,7 @@ fn blockchain__load_tx_out_set__modelled() {
     #[cfg(feature = "v29_and_below")]
     let expected_block_hash = "696e92821f65549c7ee134edceeeeaaa4105647a3c4fd9f298c0aec0ab50425c";
     #[cfg(not(feature = "v29_and_below"))]
-    let expected_block_hash = "6affe030b7965ab538f820a56ef56c8149b7dc1d1c144af57113be080db7c397";
+    let expected_block_hash = "135eec25a6fb277884e5824e7aa7d052c4868161c99a5122170b5266f86c273d";
 
     let snapshot_height = 110;
 
