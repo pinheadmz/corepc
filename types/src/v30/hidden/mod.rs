@@ -41,6 +41,9 @@ pub struct GetOrphanTxsVerboseOneEntry {
     pub bytes: u64,
     /// The virtual transaction size as defined in BIP 141. This is different from actual serialized size for witness transactions as witness data is discounted.
     pub vsize: u64,
+    /// The vsize as defined in BIP 141. Added in Bitcoin Core v31.0.
+    #[serde(rename = "vsize_bip141", default)]
+    pub vsize_bip141: u64,
     /// The transaction weight as defined in BIP 141.
     pub weight: u64,
     /// The entry time into the orphanage expressed in UNIX epoch time.
@@ -73,6 +76,9 @@ pub struct GetOrphanTxsVerboseTwoEntry {
     pub bytes: u64,
     /// The virtual transaction size as defined in BIP 141. This is different from actual serialized size for witness transactions as witness data is discounted.
     pub vsize: u64,
+    /// The vsize as defined in BIP 141. Added in Bitcoin Core v31.0.
+    #[serde(rename = "vsize_bip141", default)]
+    pub vsize_bip141: u64,
     /// The transaction weight as defined in BIP 141.
     pub weight: u64,
     /// List of peer ids that we store this transaction for.
