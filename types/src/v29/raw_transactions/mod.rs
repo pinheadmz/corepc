@@ -48,6 +48,9 @@ pub struct MempoolAcceptance {
     /// Rejection details (only present when 'allowed' is false and rejection details exist)
     #[serde(rename = "reject-details")]
     pub reject_details: Option<String>,
+    /// The adjusted virtual transaction size. Added in Bitcoin Core v31.0.
+    #[serde(rename = "vsize_adjusted", default)]
+    pub vsize_adjusted: Option<i64>,
 }
 
 /// Wrapper for the fees field. Part of `testmempoolaccept`.

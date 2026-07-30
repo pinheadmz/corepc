@@ -241,6 +241,9 @@ pub struct GetRawTransactionVerboseWithPrevout {
     /// The block time in seconds since epoch (Jan 1 1970 GMT).
     #[serde(rename = "blocktime")]
     pub block_time: Option<u64>,
+    /// The adjusted virtual transaction size. Added in Bitcoin Core v31.0.
+    #[serde(rename = "vsize_adjusted", default)]
+    pub vsize_adjusted: Option<u64>,
 }
 
 /// A transaction input with optional prevout data (verbosity 3 only).
