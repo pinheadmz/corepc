@@ -57,6 +57,9 @@ pub struct GetNetworkInfo {
     pub local_addresses: Vec<GetNetworkInfoAddress>,
     /// Any network and blockchain warnings.
     pub warnings: Vec<String>,
+    /// The transaction send rate in bytes per second. Added in Bitcoin Core v31.0.
+    #[serde(rename = "tx_send_rate", default)]
+    pub tx_send_rate: Option<f64>,
 }
 
 impl GetNetworkInfo {
