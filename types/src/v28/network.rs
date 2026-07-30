@@ -60,6 +60,9 @@ pub struct GetNetworkInfo {
     /// The transaction send rate in bytes per second. Added in Bitcoin Core v31.0.
     #[serde(rename = "tx_send_rate", default)]
     pub tx_send_rate: Option<f64>,
+    /// Inventory bucket statistics. Added in Bitcoin Core v31.0.
+    #[serde(rename = "inv_buckets", default)]
+    pub inv_buckets: Option<serde_json::Value>,
 }
 
 impl GetNetworkInfo {
