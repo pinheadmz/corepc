@@ -44,13 +44,14 @@ pub enum TransactionCategory {
 
 /// Whether this transaction can be RBF'ed. Part of `gettransaction`, `listsinceblock` and
 /// `listtransactions`.
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Deserialize, Serialize)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug, Default, Deserialize, Serialize)]
 pub enum Bip125Replaceable {
     /// Yes, can be replaced due to BIP-125 (RBF).
     Yes,
     /// No, cannot be replaced due to BIP-125 (RBF).
     No,
     /// RBF unknown.
+    #[default]
     Unknown,
 }
 

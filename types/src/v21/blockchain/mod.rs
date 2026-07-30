@@ -210,7 +210,7 @@ pub struct MempoolEntry {
     #[serde(rename = "spentby")]
     pub spent_by: Vec<String>,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee)
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: bool,
     /// Whether this transaction is currently unbroadcast (initial broadcast not yet acknowledged by
     /// any peers)

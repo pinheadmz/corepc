@@ -258,7 +258,7 @@ pub struct GetTransaction {
     pub comment: Option<String>,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee);
     /// may be unknown for unconfirmed transactions not in the mempool.
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: Bip125Replaceable,
     /// Only if 'category' is 'received'. List of parent descriptors for the output script of this
     /// coin.

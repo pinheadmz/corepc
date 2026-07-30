@@ -438,7 +438,7 @@ pub struct GetTransaction {
     pub time_received: u32,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee);
     /// may be unknown for unconfirmed transactions not in the mempool
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: Bip125Replaceable,
     /// Transaction details.
     pub details: Vec<GetTransactionDetail>,
@@ -490,7 +490,7 @@ pub enum TransactionCategory {
 
 /// Whether this transaction can be RBF'ed. Part of `gettransaction`, `listsinceblock` and
 /// `listtransactions`.
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Deserialize, Serialize)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug, Default, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Bip125Replaceable {
     /// Yes, can be replaced due to BIP-125 (RBF).
@@ -498,6 +498,7 @@ pub enum Bip125Replaceable {
     /// No, cannot be replaced due to BIP-125 (RBF).
     No,
     /// RBF unknown.
+    #[default]
     Unknown,
 }
 
@@ -764,7 +765,7 @@ pub struct TransactionItem {
     pub time_received: u32,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee);
     /// may be unknown for unconfirmed transactions not in the mempool
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: Bip125Replaceable,
     /// If the transaction has been abandoned (inputs are respendable).
     ///
