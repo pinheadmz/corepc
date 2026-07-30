@@ -132,6 +132,9 @@ pub struct MempoolEntry {
     /// The vsize adjusted for sigops (BIP 141). Added in Bitcoin Core v31.0.
     #[serde(rename = "vsize_adjusted", default)]
     pub vsize_adjusted: i64,
+    /// The vsize as defined in BIP 141. Added in Bitcoin Core v31.0.
+    #[serde(rename = "vsize_bip141", default)]
+    pub vsize_bip141: i64,
 }
 
 /// Fee object. Part of `getmempoolentry`.
