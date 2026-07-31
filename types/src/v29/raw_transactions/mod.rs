@@ -51,6 +51,9 @@ pub struct MempoolAcceptance {
     /// The adjusted virtual transaction size. Added in Bitcoin Core v31.0.
     #[serde(rename = "vsize_adjusted", default)]
     pub vsize_adjusted: Option<i64>,
+    /// The vsize as defined in BIP 141 (added in Bitcoin Core v31.0).
+    #[serde(rename = "vsize_bip141", default)]
+    pub vsize_bip141: Option<u64>,
 }
 
 /// Wrapper for the fees field. Part of `testmempoolaccept`.
