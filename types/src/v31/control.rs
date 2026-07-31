@@ -25,6 +25,7 @@ pub struct Logging {
     pub ipc: bool,
     pub kernel: bool,
     pub leveldb: bool,
+    #[serde(default)]
     pub libevent: bool,
     pub mempool: bool,
     pub mempoolrej: bool,

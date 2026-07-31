@@ -376,6 +376,9 @@ pub struct GetRawTransactionVerbose {
     /// The block time in seconds since epoch (Jan 1 1970 GMT).
     #[serde(rename = "blocktime")]
     pub block_time: Option<u64>,
+    /// The vsize adjusted for policy rules (added in Bitcoin Core v31.0).
+    #[serde(rename = "vsize_adjusted", default)]
+    pub vsize_adjusted: Option<u64>,
 }
 
 /// Result of JSON-RPC method `sendrawtransaction`.
@@ -484,4 +487,13 @@ pub struct MempoolAcceptance {
     /// Rejection string (only present when 'allowed' is false).
     #[serde(rename = "reject-reason")]
     pub reject_reason: Option<String>,
+    /// Rejection details (only present when 'allowed' is false and rejection details exist).
+    #[serde(rename = "reject-details", default)]
+    pub reject_details: Option<String>,
+    /// The vsize adjusted for policy rules (added in Bitcoin Core v31.0).
+    #[serde(rename = "vsize_adjusted", default)]
+    pub vsize_adjusted: Option<u64>,
+    /// The vsize as defined in BIP 141 (added in Bitcoin Core v31.0).
+    #[serde(rename = "vsize_bip141", default)]
+    pub vsize_bip141: Option<u64>,
 }

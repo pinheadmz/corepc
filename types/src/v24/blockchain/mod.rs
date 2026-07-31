@@ -109,7 +109,7 @@ pub struct MempoolEntry {
     pub spent_by: Vec<String>,
     /// Whether this transaction signals BIP125 replaceability or has an unconfirmed ancestor
     /// signaling BIP125 replaceability.
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: bool,
     /// Whether this transaction is currently unbroadcast (initial broadcast not yet acknowledged by
     /// any peers)

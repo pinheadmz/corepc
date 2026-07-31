@@ -58,7 +58,7 @@ fn test_mempool_accept_rejected_has_reason() {
 }
 
 #[test]
-#[cfg(not(feature = "v17"))]
+#[cfg(all(not(feature = "v17"), feature = "v30_and_below"))] // analyzepsbt added in v0.18; PSBT v2 not supported.
 fn analyze_psbt_has_estimates_after_wallet_process() {
     let node = BitcoinD::with_wallet(Wallet::Default, &[]);
     node.fund_wallet();
@@ -75,7 +75,7 @@ fn analyze_psbt_has_estimates_after_wallet_process() {
 }
 
 #[test]
-#[cfg(not(feature = "v19_and_below"))]
+#[cfg(all(not(feature = "v19_and_below"), feature = "v30_and_below"))] // utxoupdatepsbt added in v0.20; PSBT v2 not supported.
 fn decode_psbt_has_witness_utxo_after_utxo_update() {
     let node = BitcoinD::with_wallet(Wallet::Default, &[]);
     node.fund_wallet();
@@ -90,7 +90,7 @@ fn decode_psbt_has_witness_utxo_after_utxo_update() {
 }
 
 #[test]
-#[cfg(not(feature = "v19_and_below"))]
+#[cfg(all(not(feature = "v19_and_below"), feature = "v30_and_below"))] // PSBT v2 not supported.
 fn decode_psbt_input_final_witness_after_signing() {
     let node = BitcoinD::with_wallet(Wallet::Default, &[]);
     node.fund_wallet();
@@ -105,7 +105,7 @@ fn decode_psbt_input_final_witness_after_signing() {
 }
 
 #[test]
-#[cfg(not(feature = "v22_and_below"))]
+#[cfg(all(not(feature = "v22_and_below"), feature = "v30_and_below"))] // PSBT v2 not supported.
 fn decode_psbt_input_bip32_derivs_for_unfinalized_psbt() {
     let node = BitcoinD::with_wallet(Wallet::Default, &[]);
     node.fund_wallet();

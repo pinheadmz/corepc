@@ -97,7 +97,7 @@ pub struct GetTransaction {
     pub comment: Option<String>,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee);
     /// may be unknown for unconfirmed transactions not in the mempool
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: Bip125Replaceable,
     /// Transaction details.
     pub details: Vec<GetTransactionDetail>,
@@ -251,7 +251,7 @@ pub struct TransactionItem {
     pub time_received: u32,
     /// ("yes|no|unknown") Whether this transaction could be replaced due to BIP125 (replace-by-fee);
     /// may be unknown for unconfirmed transactions not in the mempool
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: Bip125Replaceable,
     /// 'true' if the transaction has been abandoned (inputs are respendable). Only available for the
     /// 'send' category of transactions.

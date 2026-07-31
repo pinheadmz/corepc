@@ -96,7 +96,7 @@ pub struct GetTransaction {
     pub time_received: u32,
     /// Whether this transaction could be replaced due to BIP125 (replace-by-fee);
     /// may be unknown for unconfirmed transactions not in the mempool
-    #[serde(rename = "bip125-replaceable")]
+    #[serde(rename = "bip125-replaceable", default)]
     pub bip125_replaceable: Bip125Replaceable,
     /// Transaction details.
     pub details: Vec<GetTransactionDetail>,
